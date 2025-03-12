@@ -9,9 +9,15 @@ class UserProfile(db.Model):
     __tablename__ = 'user_profiles'
 
     id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(80))
-    last_name = db.Column(db.String(80))
-    username = db.Column(db.String(80), unique=True)
+    first_name = db.Column(db.String(80), nullable = False)
+    last_name = db.Column(db.String(80), nullable = False)
+    username = db.Column(db.String(80), unique=True, nullable = False)
+
+
+    def __init__ (self, first_name, last_name, username):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.username = username
 
     def is_authenticated(self):
         return True
