@@ -1,5 +1,5 @@
 from . import db
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class UserProfile(db.Model):
@@ -39,3 +39,6 @@ class UserProfile(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.username)
+    
+    def checkpassword(self, password):
+        return check_password_hash(self.password, password)
