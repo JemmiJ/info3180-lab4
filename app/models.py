@@ -13,14 +13,14 @@ class UserProfile(db.Model):
     first_name = db.Column(db.String(80), nullable = False)
     last_name = db.Column(db.String(80), nullable = False)
     username = db.Column(db.String(80), unique=True, nullable = False)
-    password = db.Column(db.String(128), nullable = False)
+    password = db.Column(db.String(256), nullable = False)
 
 
     def __init__ (self, first_name, last_name, username, password):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
-        self.password = generate_password_hash(password, method = 'pbkdf2:sha128')
+        self.password = generate_password_hash(password, method = 'pbkdf2:sha256')
 
     def is_authenticated(self):
         return True
@@ -39,6 +39,3 @@ class UserProfile(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.username)
-    
-    def checkpassword(self, password):
-        return check_password_hash(self.password, password)
