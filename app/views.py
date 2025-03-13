@@ -36,8 +36,26 @@ def upload():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         flash('File Saved', 'success')
-        return redirect(url_for('home')) # Update this to redirect the user to a route that displays all uploaded image files
+        return redirect(url_for('files')) # Update this to redirect the user to a route that displays all uploaded image files
     return render_template("upload.html", form=form)
+
+def get_uploaded_images():
+    files = []
+    if os.path.exists(app.config['UPLOAD_FOLDER']):
+        for filename in os.listdir(app.config['UPLOAD_FOLDER']):
+            if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+                files.append(filename)
+    return files
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/files')
+@login_required
+def files():
+    images = get_uploaded_images()
+    return render_template('files.html', images=images)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -45,7 +63,7 @@ def login():
 
     # change this to actually validate the entire form submission
     # and not just one field
-    if form.validate_on_submit:
+    if form.validate_on_submit():
         user = UserProfile.query.filter_by(username = form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
