@@ -14,4 +14,4 @@ class UploadForm(FlaskForm):
         FileRequired(), 
         FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')
     ])
-    submit = SubmitField('Upload')
+    submit = SubmitField('Upload File')

@@ -5,13 +5,12 @@
 
 {% include 'flash_messages.html' %}
 
-<h2>Upload an Image</h2>
-
 <form method="POST" enctype ="multipart/form-data" action="{{ url_for('upload') }}">
+  {{ form.csrf_token }}
 
   {{ form.hidden_tag() }}
   {{ form.file.label }} {{ form.file(class="file-tag") }}
-  <button type="submit" name="submit" class="btn btn-primary">Upload file</button>
+  <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
 
 </form>
 {% endblock %}

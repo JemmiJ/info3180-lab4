@@ -77,7 +77,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash("You've been logged out", "success")
+    flash("You've successfully logged out", "success")
     return redirect(url_for('login'))
 
 # user_loader callback. This callback is used to reload the user object from
